@@ -132,7 +132,10 @@ async function main() {
   if (isCreateIssue) {
     if (!project) throw new Error('Creating issue need project');
     if (!type) throw new Error('Creating issue need type');
-    if (key) throw new Error('Issue already exists');
+    if (foundInTitle) {
+      core.info('Jira issue detected in PR title/branch');
+      process.exit(0);
+    }
 
     const fullName = await github.getByUsername(github.context.actor).catch(core.info).name;
     core.info('User full name: ', fullName);
