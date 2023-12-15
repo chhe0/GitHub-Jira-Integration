@@ -133,7 +133,8 @@ async function main() {
     if (!project) throw new Error('Creating issue need project');
     if (!type) throw new Error('Creating issue need type');
 
-    const userId = await jira.getUserIdByFuzzyName(github.context.actor).catch(core.info);
+    const fullName = await github.getByUsername(github.context.actor).catch(core.info).name;
+    const userId = await jira.getUserIdByFuzzyName(fullName).catch(core.info);
 
     const issue = await jira.postIssue(pr.title, userId);
     key = issue.key;
