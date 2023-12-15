@@ -134,6 +134,8 @@ async function main() {
     if (!type) throw new Error('Creating issue need type');
 
     const fullName = await github.getByUsername(github.context.actor).catch(core.info).name;
+    core.info('User full name: ', fullName);
+
     const userId = await jira.getUserIdByFuzzyName(fullName).catch(core.info);
 
     const issue = await jira.postIssue(pr.title, userId);
